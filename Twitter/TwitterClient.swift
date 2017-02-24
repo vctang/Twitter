@@ -11,7 +11,7 @@ import BDBOAuth1Manager
 
 class TwitterClient: BDBOAuth1SessionManager {
     
-    static let sharedInstance = TwitterClient(baseURL: (NSURL(string: "https://parseplatform.github.io/Parse-SDK-iOS-OSX/api/") as URL!), consumerKey: "fxxiY2HgFrg1EqqDAiRAea9KY", consumerSecret: "MG224M1rA1d7meDhJU4YgsxbW3NzkRwWdISiPtA8M1DDOJQIPS")
+    static let sharedInstance = TwitterClient(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "fxxiY2HgFrg1EqqDAiRAea9KY", consumerSecret: "MG224M1rA1d7meDhJU4YgsxbW3NzkRwWdISiPtA8M1DDOJQIPS")
     
     var loginSuccess: (() -> ())?
     var loginFailure: ((Error) -> ())?
@@ -34,6 +34,13 @@ class TwitterClient: BDBOAuth1SessionManager {
             print("error: \(error!.localizedDescription)")
             self.loginFailure!(error!)
         }
+    }
+    
+    func logout(){
+        User.currentUser = nil
+        deauthorize()
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: User.userDidLogoutNotification), object: nil)
     }
     
     func handleOpenUrl(url: NSURL) {
