@@ -32,7 +32,7 @@ class TweetsViewController: UIViewController {
     }
     
     @IBAction func onLogoutButton(_ sender: Any) {
-        TwitterClient.sharedInstance?.logout()
+        TwitterClient.sharedInstance!.logout()
     }
 
     /*
