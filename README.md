@@ -3,11 +3,8 @@
 **Twitter** is a Twitter-based app using the [The Twitter API](http://docs.themoviedb.apiary.io/#).
 
 Time spent: 
-Week 1: ~7 hours
 
-Week 2: ~15 hours
-
-**23** hours spent in total
+**15** hours spent in total
 
 ## User Stories
 
