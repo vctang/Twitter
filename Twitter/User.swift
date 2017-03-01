@@ -9,7 +9,6 @@
 import UIKit
 
 class User: NSObject {
-    
     var name: NSString?
     var screenname: NSString?
     var profileUrl: NSURL?
