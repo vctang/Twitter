@@ -10,6 +10,8 @@ import UIKit
 
 class TweetDetailsViewController: UIViewController {
 
+    @IBOutlet weak var profileButton: UIButton!
+    
     @IBOutlet weak var tweetImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -76,10 +78,16 @@ class TweetDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let profileURL = tweet.user?.profileUrl{
+            self.tweetImageView.setImageWith(profileURL as URL)
+        }
         
         self.nameLabel.text = tweet.user?.name as String?
-        self.usernameLabel.text = tweet.user?.screenname as String?
-    // Do any additional setup after loading the view.
+        self.usernameLabel.text = "@\((tweet.user?.screenname as String?)!)"
+        self.tweetTextLabel.text = tweet.text as String?
+        self.timestampLabel.text = formatDate(dates: tweet.timestamp as! Date)
+        self.retweetLabel.text = "\((tweet.retweetCount))"
+        self.favoriteLabel.text = "\((tweet.favoritesCount))"
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +95,22 @@ class TweetDetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onReplyPresed(_ sender: Any) {
+        print("Reply pressed")
+    }
 
+    @IBAction func onRetweetPressed(_ sender: Any) {
+        retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
+        tweet.retweetCount += 1
+        self.retweetLabel.text = "\((tweet.retweetCount))"
+    }
+    
+    @IBAction func onFavoritePressed(_ sender: Any) {
+        favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
+        tweet.favoritesCount += 1
+        self.favoriteLabel.text = "\((tweet.favoritesCount))"
+    }
+    
     /*
     // MARK: - Navigation
 

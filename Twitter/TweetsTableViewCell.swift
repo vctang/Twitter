@@ -11,6 +11,8 @@ import BDBOAuth1Manager
 
 class TweetsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var toProfileButton: UIButton!
+    
     @IBOutlet weak var tweetImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
