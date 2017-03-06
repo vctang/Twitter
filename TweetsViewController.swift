@@ -25,10 +25,9 @@ class TweetsViewController: UIViewController {
 
         TwitterClient.sharedInstance?.homeTimeLine(success: { ( tweets: [Tweet]) -> () in
             self.tweets = tweets
-            for tweet in tweets {
+            /*for tweet in tweets {
                 print(tweet.text!)
-                //self.tweetsTableView.reloadData()
-            }
+            }*/
             self.tweetsTableView.reloadData()
         }, failure: { (error: Error) -> () in
             print(error.localizedDescription)

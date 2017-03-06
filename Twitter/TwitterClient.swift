@@ -89,7 +89,14 @@ class TwitterClient: BDBOAuth1SessionManager {
     func retweet(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
         self.post("https://api.twittercom/1.1/statuses/retweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
         }) { (task, error) in
-        failure(error)
+            failure(error)
+        }
+    }
+    
+    func favorite(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("https://api.twittercom/1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in success()
+        }) { (task, error) in
+            failure(error)
         }
     }
     
