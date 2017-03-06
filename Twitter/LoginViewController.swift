@@ -4,7 +4,7 @@
 //
 //  Created by Vicky Tang on 2/21/17.
 //  Copyright © 2017 Vicky Tang. All rights reserved.
-//
+//  TODO: Make sure favorite/rewteet can only be pressed once/decremented. Make profile pictures rounded corner
 
 import UIKit
 import BDBOAuth1Manager
