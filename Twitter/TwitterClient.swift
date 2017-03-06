@@ -87,14 +87,28 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func retweet(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
-        self.post("https://api.twittercom/1.1/statuses/retweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
+        self.post("1.1/statuses/retweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func unretweet(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("1.1/statuses/unretweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
         }) { (task, error) in
             failure(error)
         }
     }
     
     func favorite(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
-        self.post("https://api.twittercom/1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in success()
+        self.post("1.1/favorites/create.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func unfavorite(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("1.1/favorites/destroy.json?id=\(id)", parameters: nil, progress: nil, success: { (task, response) in success()
         }) { (task, error) in
             failure(error)
         }

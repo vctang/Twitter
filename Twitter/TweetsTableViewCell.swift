@@ -98,15 +98,48 @@ class TweetsTableViewCell: UITableViewCell {
     }
     
     @IBAction func onRetweetPressed(_ sender: Any) {
-        retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
-        tweetData?.retweetCount += 1
-        self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
+        if(tweetData?.didRetweet == false){
+            TwitterClient.sharedInstance!.retweet(id: (tweetData?.id)!, success: {
+                self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
+                self.tweetData?.retweetCount += 1
+                self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
+                self.tweetData?.didRetweet = true
+            }, failure: { (error) in
+                print("Error")
+            })
+        } else if (tweetData?.didRetweet == true) {
+            TwitterClient.sharedInstance!.unretweet(id: (tweetData?.id)!, success: {
+                self.retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState.normal)
+                self.tweetData?.retweetCount -= 1
+                self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
+                self.tweetData?.didRetweet = false
+            }, failure: { (error) in
+                print("Error")
+            })
+        }
     }
-    
+
     @IBAction func onFavoritePressed(_ sender: Any) {
-        favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
-        tweetData?.favoritesCount += 1
-        self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+        if(self.tweetData?.didFavorite == false){
+            TwitterClient.sharedInstance!.favorite(id: (tweetData?.id)!, success: {
+                self.favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
+                self.tweetData?.favoritesCount += 1
+                self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+                self.tweetData?.didFavorite = true
+            }, failure: { (error) in
+                print("Error")
+            })
+        } else if (self.tweetData?.didFavorite == true) {
+            TwitterClient.sharedInstance!.unfavorite(id: (tweetData?.id)!, success: {
+                self.favoriteButton.setImage(UIImage(named: "favor-icon"), for: UIControlState.normal)
+                self.tweetData?.favoritesCount -= 1
+                self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+                self.tweetData?.didFavorite = false
+            }, failure: { (error) in
+                print("Error")
+            })
+        }
+        
     }
     
     override func awakeFromNib() {

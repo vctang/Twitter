@@ -89,7 +89,7 @@ class TweetDetailsViewController: UIViewController {
         self.retweetLabel.text = "\((tweet.retweetCount))"
         self.favoriteLabel.text = "\((tweet.favoritesCount))"
         
-        if tweet.didRetweet {
+        /*if tweet.didRetweet {
             retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState())
         } else {
             retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState())
@@ -99,7 +99,7 @@ class TweetDetailsViewController: UIViewController {
             favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState())
         } else {
             favoriteButton.setImage(UIImage(named: "favor-icon"), for: UIControlState())
-        }
+        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,41 +112,47 @@ class TweetDetailsViewController: UIViewController {
     }
 
     @IBAction func onRetweetPressed(_ sender: Any) {
-        if tweet.didRetweet == false {
-            TwitterClient.sharedInstance!.retweet(id: self.tweet!.id, success: {
+        if(tweet.didRetweet == false){
+            TwitterClient.sharedInstance!.retweet(id: (tweet.id), success: {
+                self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
                 self.tweet.retweetCount += 1
-                self.tweet.didRetweet = true
-                
                 self.retweetLabel.text = "\((self.tweet.retweetCount))"
-                self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState())
-                
+                self.tweet.didRetweet = true
+            }, failure: { (error) in
+                print("Error")
+            })
+        } else if (tweet.didRetweet == true) {
+            TwitterClient.sharedInstance!.unfavorite(id: (tweet.id), success: {
+                self.retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState.normal)
+                self.tweet.retweetCount -= 1
+                self.retweetLabel.text = "\((self.tweet.retweetCount))"
+                self.tweet.didRetweet = false
             }, failure: { (error) in
                 print("Error")
             })
         }
-        
-        /*retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
-        tweet.retweetCount += 1
-        self.retweetLabel.text = "\((tweet.retweetCount))"*/
     }
     
     @IBAction func onFavoritePressed(_ sender: Any) {
-        if tweet.didFavorite == false {
-            TwitterClient.sharedInstance!.favorite(id: self.tweet!.id, success: {
+        if(tweet.didFavorite == false){
+            TwitterClient.sharedInstance!.favorite(id: (tweet.id), success: {
+                self.favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
                 self.tweet.favoritesCount += 1
-                self.tweet.didFavorite = true
-                
                 self.favoriteLabel.text = "\((self.tweet.favoritesCount))"
-                self.favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState())
-                
+                self.tweet.didFavorite = true
+            }, failure: { (error) in
+                print("Error")
+            })
+        } else if (tweet.didFavorite == true) {
+            TwitterClient.sharedInstance!.unfavorite(id: (tweet.id), success: {
+                self.favoriteButton.setImage(UIImage(named: "favor-icon"), for: UIControlState.normal)
+                self.tweet.favoritesCount -= 1
+                self.favoriteLabel.text = "\((self.tweet.favoritesCount))"
+                self.tweet.didFavorite = false
             }, failure: { (error) in
                 print("Error")
             })
         }
-        
-        /*favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
-        tweet.favoritesCount += 1
-        self.favoriteLabel.text = "\((tweet.favoritesCount))"*/
     }
     
     
