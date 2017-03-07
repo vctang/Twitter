@@ -64,7 +64,7 @@ class TweetsViewController: UIViewController {
             
             let detailViewController = segue.destination as! ProfileViewController
             detailViewController.tweet = tweet
-            
+            detailViewController.user = tweet.user
         } else if(segue.identifier == "CellToDetailSegue"){
             let cell = sender as! UITableViewCell
             let indexPath = tweetsTableView.indexPath(for: cell);

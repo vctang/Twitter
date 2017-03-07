@@ -20,6 +20,9 @@ class UpdateStatusViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tweetImageView.layer.cornerRadius = 4
+        tweetImageView.clipsToBounds = true
+        
         self.nameLabel.text = tweet.user?.name as String?
         self.usernameLabel.text = "@\((tweet.user?.screenname as String?)!)"
         

@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -301,7 +300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Br1-Rn-ud3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2649" y="1343"/>
+            <point key="canvasLocation" x="2689" y="1343"/>
         </scene>
         <!--Profile-->
         <scene sceneID="wjX-C0-mae">
@@ -358,6 +357,9 @@
                                                         <constraint firstAttribute="height" constant="30" id="t7A-Tg-uJO"/>
                                                     </constraints>
                                                     <state key="normal" image="reply-icon"/>
+                                                    <connections>
+                                                        <segue destination="XhT-Ci-E8b" kind="push" identifier="ProfileCellToTweetSegue" id="7mX-gg-CrY"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pgd-Gl-JCO">
                                                     <rect key="frame" x="183" y="73" width="9" height="18"/>
@@ -577,14 +579,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="BVm-el-T6e">
-                        <rightBarButtonItems>
-                            <barButtonItem image="edit-icon" id="KFx-Uh-KOD">
-                                <connections>
-                                    <segue destination="XhT-Ci-E8b" kind="push" identifier="ProfileToTweetSegue" id="S7Z-d9-sWu"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem image="addfriend-icon" id="bB4-Jj-sEV"/>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="edit-icon" id="KFx-Uh-KOD">
+                            <connections>
+                                <segue destination="XhT-Ci-E8b" kind="push" identifier="ProfileToTweetSegue" id="S7Z-d9-sWu"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="backgroundView" destination="8vi-Ty-OvL" id="xpD-QJ-qbl"/>
@@ -819,7 +818,6 @@
     </scenes>
     <resources>
         <image name="TwitterLogoBlue" width="200" height="200"/>
-        <image name="addfriend-icon" width="30" height="29"/>
         <image name="edit-icon" width="30" height="27"/>
         <image name="favor-icon" width="30" height="30"/>
         <image name="reply-icon" width="30" height="30"/>
@@ -827,6 +825,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="pQz-gI-eOQ"/>
-        <segue reference="f2d-rx-Pri"/>
+        <segue reference="7mX-gg-CrY"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -22,6 +22,9 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    //var profileController = UIViewController as ProfileViewController
+    //var profileUser = profileController.user
+    
     var tweetData: Tweet? {
         didSet{
             print("PostData has been set")
@@ -137,7 +140,8 @@ class ProfileTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        tweetImageView.layer.cornerRadius = 4
+        tweetImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

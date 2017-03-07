@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     
     // BOTTOM
     @IBOutlet weak var tweetTableView: UITableView!
+    var user: User!
     
     var tweets: [Tweet]!
     var tweet: Tweet!
@@ -29,6 +30,8 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tweetImageView.layer.cornerRadius = 4
+        tweetImageView.clipsToBounds = true
         
         // TOP
         self.nameLabel.text = tweet.user?.name as String?
@@ -52,12 +55,13 @@ class ProfileViewController: UIViewController {
         tweetTableView.rowHeight = UITableViewAutomaticDimension
         tweetTableView.estimatedRowHeight = 120
         
-        TwitterClient.sharedInstance?.userTimeLine(success: { ( tweets: [Tweet]) -> () in
+        let userscreenname = tweet.user?.screenname as String?
+        
+        TwitterClient.sharedInstance?.getUserProfileTimeLine(userScreenName: userscreenname!, callBack: { (tweets, error) in
             self.tweets = tweets
             self.tweetTableView.reloadData()
-        }, failure: { (error: Error) -> () in
-            print(error.localizedDescription)
         })
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,13 +69,14 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "ProfileToTweetSegue"){
+            let detailViewController = segue.destination as! UpdateStatusViewController
+            detailViewController.tweet = tweet
+        } else if (segue.identifier == "ProfileCellToTweetSegue") {
             let detailViewController = segue.destination as! UpdateStatusViewController
             detailViewController.tweet = tweet
         }

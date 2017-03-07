@@ -9,9 +9,13 @@
 import UIKit
 import BDBOAuth1Manager
 
+fileprivate let ScreenNamekey = "screen_name"
+
 class TwitterClient: BDBOAuth1SessionManager {
     
     static let sharedInstance = TwitterClient(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "fxxiY2HgFrg1EqqDAiRAea9KY", consumerSecret: "MG224M1rA1d7meDhJU4YgsxbW3NzkRwWdISiPtA8M1DDOJQIPS")
+    static let oAuthBaseURL = "https://api.twitter.com"
+    static let userProfieTimeLineEndPoint = oAuthBaseURL + "/1.1/statuses/user_timeline.json"
     
     var loginSuccess: (() -> ())?
     var loginFailure: ((Error) -> ())?
@@ -133,5 +137,21 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func getUserProfileTimeLine(userScreenName: String, callBack: @escaping (_ response: [Tweet]?, _ error: Error? ) -> Void){
+        let fetchURLString = TwitterClient.userProfieTimeLineEndPoint
+        let param: [String : Any] = [ScreenNamekey: userScreenName]  //extra param to fetch whatever profile you want based on the screen name
+        let _ = TwitterClient.sharedInstance?.get(fetchURLString, parameters: param, progress: nil, success: { (task: URLSessionDataTask, response:Any?) in
+            //this is the desired timeline for the given user
+            if let timelineDict = response as? [[String: Any]]{
+                let tweets = timelineDict.map{(element) -> Tweet in
+                    return Tweet(dictionary: element as NSDictionary)
+                }
+                callBack(tweets, nil)
+            }
+        }, failure: { (task: URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+            callBack(nil, error)
+        })
+    }
     
 }

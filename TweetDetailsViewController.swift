@@ -78,6 +78,9 @@ class TweetDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tweetImageView.layer.cornerRadius = 4
+        tweetImageView.clipsToBounds = true
+        
         if let profileURL = tweet.user?.profileUrl{
             self.tweetImageView.setImageWith(profileURL as URL)
         }

@@ -144,7 +144,8 @@ class TweetsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        tweetImageView.layer.cornerRadius = 4
+        tweetImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
