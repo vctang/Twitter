@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController {
     // BOTTOM
     @IBOutlet weak var tweetTableView: UITableView!
     
+    var tweets: [Tweet]!
     var tweet: Tweet!
     var dictionary: NSDictionary!
 
@@ -44,6 +45,19 @@ class ProfileViewController: UIViewController {
             self.backgroundView.setImageWith(backgroundURL as URL)
         }
         
+        // BOTTOM
+        self.tweetTableView.dataSource = self
+        self.tweetTableView.delegate = self
+        
+        tweetTableView.rowHeight = UITableViewAutomaticDimension
+        tweetTableView.estimatedRowHeight = 120
+        
+        TwitterClient.sharedInstance?.userTimeLine(success: { ( tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            self.tweetTableView.reloadData()
+        }, failure: { (error: Error) -> () in
+            print(error.localizedDescription)
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,5 +77,16 @@ class ProfileViewController: UIViewController {
         }
     }
     
+}
 
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.tweets?.count ?? 0
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = self.tweetTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileTableViewCell
+        cell.tweetData = self.tweets?[indexPath.row] ?? nil
+        return cell
+    }
 }

@@ -1,29 +1,27 @@
 //
-//  TweetsTableViewCell.swift
+//  ProfileTableViewCell.swift
 //  Twitter
 //
-//  Created by Vicky Tang on 2/26/17.
+//  Created by Vicky Tang on 3/6/17.
 //  Copyright © 2017 Vicky Tang. All rights reserved.
 //
 
 import UIKit
 import BDBOAuth1Manager
 
-class TweetsTableViewCell: UITableViewCell {
+class ProfileTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var toProfileButton: UIButton!
-    
     @IBOutlet weak var tweetImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var retweetLabel: UILabel!
-    @IBOutlet weak var favoriteLabel: UILabel!
+    @IBOutlet weak var timestampLabel : UILabel!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteCountLabel: UILabel!
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
-
+    
     var tweetData: Tweet? {
         didSet{
             print("PostData has been set")
@@ -37,8 +35,8 @@ class TweetsTableViewCell: UITableViewCell {
             self.nameLabel.text = userModel?.name as String!
             self.usernameLabel.text = "@\((userModel?.screenname as String!)!)"
             self.timestampLabel.text = formatDate(dates: self.tweetData?.timestamp as! Date)
-            self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
-            self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+            self.retweetCountLabel.text = "\((self.tweetData?.retweetCount)!)"
+            self.favoriteCountLabel.text = "\((self.tweetData?.favoritesCount)!)"
         }
     }
     
@@ -93,16 +91,12 @@ class TweetsTableViewCell: UITableViewCell {
         
     }
     
-    @IBAction func onReplyPressed(_ sender: Any) {
-        print("Reply pressed")
-    }
-    
     @IBAction func onRetweetPressed(_ sender: Any) {
         if(tweetData?.didRetweet == false){
             TwitterClient.sharedInstance!.retweet(id: (tweetData?.id)!, success: {
                 self.retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState.normal)
                 self.tweetData?.retweetCount += 1
-                self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
+                self.retweetCountLabel.text = "\((self.tweetData?.retweetCount)!)"
                 self.tweetData?.didRetweet = true
             }, failure: { (error) in
                 print("Error: \(error.localizedDescription)")
@@ -111,7 +105,7 @@ class TweetsTableViewCell: UITableViewCell {
             TwitterClient.sharedInstance!.unretweet(id: (tweetData?.id)!, success: {
                 self.retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState.normal)
                 self.tweetData?.retweetCount -= 1
-                self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
+                self.retweetCountLabel.text = "\((self.tweetData?.retweetCount)!)"
                 self.tweetData?.didRetweet = false
             }, failure: { (error) in
                 print("Error: \(error.localizedDescription)")
@@ -124,7 +118,7 @@ class TweetsTableViewCell: UITableViewCell {
             TwitterClient.sharedInstance!.favorite(id: (tweetData?.id)!, success: {
                 self.favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState.normal)
                 self.tweetData?.favoritesCount += 1
-                self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+                self.favoriteCountLabel.text = "\((self.tweetData?.favoritesCount)!)"
                 self.tweetData?.didFavorite = true
             }, failure: { (error) in
                 print("Error: \(error.localizedDescription)")
@@ -133,15 +127,14 @@ class TweetsTableViewCell: UITableViewCell {
             TwitterClient.sharedInstance!.unfavorite(id: (tweetData?.id)!, success: {
                 self.favoriteButton.setImage(UIImage(named: "favor-icon"), for: UIControlState.normal)
                 self.tweetData?.favoritesCount -= 1
-                self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
+                self.favoriteCountLabel.text = "\((self.tweetData?.favoritesCount)!)"
                 self.tweetData?.didFavorite = false
             }, failure: { (error) in
                 print("Error: \(error.localizedDescription)")
             })
         }
-        
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
