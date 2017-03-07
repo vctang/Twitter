@@ -94,6 +94,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 
 - [X] Images have rounded edges
+- [X] Imported custom font for Twitter login page
 - [X] User can access the profile page by tapping image in the detail view
 - [X] Profile page also contains the selected user's latest posts
 
