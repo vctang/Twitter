@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    // TOP
     @IBOutlet weak var backgroundView: UIImageView!
     @IBOutlet weak var tweetImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -19,13 +20,16 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var followersCountLabel: UILabel!
     @IBOutlet weak var tweetButton: UIBarButtonItem!
     
-
+    // BOTTOM
+    @IBOutlet weak var tweetTableView: UITableView!
+    
     var tweet: Tweet!
     var dictionary: NSDictionary!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TOP
         self.nameLabel.text = tweet.user?.name as String?
         self.usernameLabel.text = "@\((tweet.user?.screenname as String?)!)"
         self.tweetCountLabel.text = "\((tweet.user?.numTweets)!)"
@@ -39,8 +43,7 @@ class ProfileViewController: UIViewController {
         if let backgroundURL = tweet.user?.backgroundURL{
             self.backgroundView.setImageWith(backgroundURL as URL)
         }
-
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,14 +52,16 @@ class ProfileViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if(segue.identifier == "ProfileToTweetSegue"){
+            let detailViewController = segue.destination as! UpdateStatusViewController
+            detailViewController.tweet = tweet
+        }
     }
-    */
+    
 
 }

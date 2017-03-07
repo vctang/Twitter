@@ -105,7 +105,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
                 self.tweetData?.didRetweet = true
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         } else if (tweetData?.didRetweet == true) {
             TwitterClient.sharedInstance!.unretweet(id: (tweetData?.id)!, success: {
@@ -114,7 +114,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.retweetLabel.text = "\((self.tweetData?.retweetCount)!)"
                 self.tweetData?.didRetweet = false
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         }
     }
@@ -127,7 +127,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
                 self.tweetData?.didFavorite = true
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         } else if (self.tweetData?.didFavorite == true) {
             TwitterClient.sharedInstance!.unfavorite(id: (tweetData?.id)!, success: {
@@ -136,7 +136,7 @@ class TweetsTableViewCell: UITableViewCell {
                 self.favoriteLabel.text = "\((self.tweetData?.favoritesCount)!)"
                 self.tweetData?.didFavorite = false
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         }
         

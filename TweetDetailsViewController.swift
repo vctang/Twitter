@@ -88,18 +88,6 @@ class TweetDetailsViewController: UIViewController {
         self.timestampLabel.text = formatDate(dates: tweet.timestamp as! Date)
         self.retweetLabel.text = "\((tweet.retweetCount))"
         self.favoriteLabel.text = "\((tweet.favoritesCount))"
-        
-        /*if tweet.didRetweet {
-            retweetButton.setImage(UIImage(named: "retweet-icon-green"), for: UIControlState())
-        } else {
-            retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState())
-        }
-        
-        if tweet.didFavorite {
-            favoriteButton.setImage(UIImage(named: "favor-icon-red"), for: UIControlState())
-        } else {
-            favoriteButton.setImage(UIImage(named: "favor-icon"), for: UIControlState())
-        }*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -119,16 +107,16 @@ class TweetDetailsViewController: UIViewController {
                 self.retweetLabel.text = "\((self.tweet.retweetCount))"
                 self.tweet.didRetweet = true
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         } else if (tweet.didRetweet == true) {
-            TwitterClient.sharedInstance!.unfavorite(id: (tweet.id), success: {
+            TwitterClient.sharedInstance!.unretweet(id: (tweet.id), success: {
                 self.retweetButton.setImage(UIImage(named: "retweet-icon"), for: UIControlState.normal)
                 self.tweet.retweetCount -= 1
                 self.retweetLabel.text = "\((self.tweet.retweetCount))"
                 self.tweet.didRetweet = false
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         }
     }
@@ -141,7 +129,7 @@ class TweetDetailsViewController: UIViewController {
                 self.favoriteLabel.text = "\((self.tweet.favoritesCount))"
                 self.tweet.didFavorite = true
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         } else if (tweet.didFavorite == true) {
             TwitterClient.sharedInstance!.unfavorite(id: (tweet.id), success: {
@@ -150,7 +138,7 @@ class TweetDetailsViewController: UIViewController {
                 self.favoriteLabel.text = "\((self.tweet.favoritesCount))"
                 self.tweet.didFavorite = false
             }, failure: { (error) in
-                print("Error")
+                print("Error: \(error.localizedDescription)")
             })
         }
     }
@@ -160,10 +148,14 @@ class TweetDetailsViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let button = sender as! UIButton
-        
-        let detailViewController = segue.destination as! ProfileViewController
-        detailViewController.tweet = tweet
+        if(segue.identifier == "DetailToProfileSegue"){
+            //let button = sender as! UIButton
+            let detailViewController = segue.destination as! ProfileViewController
+            detailViewController.tweet = tweet
+        } else if (segue.identifier == "DetailToTweetSegue") {
+            let detailViewController = segue.destination as! UpdateStatusViewController
+            detailViewController.tweet = tweet
+        }
     }
     
 

@@ -87,14 +87,14 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func retweet(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
-        self.post("1.1/statuses/retweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
+        self.post("1.1/statuses/retweet/\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
         }) { (task, error) in
             failure(error)
         }
     }
     
     func unretweet(id: Int, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
-        self.post("1.1/statuses/unretweet\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
+        self.post("1.1/statuses/unretweet/\(id).json", parameters: nil, progress: nil, success: { (task, response) in success()
         }) { (task, error) in
             failure(error)
         }
@@ -113,5 +113,25 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure(error)
         }
     }
+    
+    func statusUpdate(id: Int, tweetStatus: String, tweetID: String, success :@escaping () -> (), failure: @escaping (Error) -> ()) {
+        self.post("1.1/statuses/update.json", parameters: ["status": tweetStatus, "in_reply_to_status_id": tweetID], progress: nil, success: { (task, response) in success()
+        }) { (task, error) in
+            failure(error)
+        }
+    }
+    
+    func userTimeLine(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        
+        get("1.1/statuses/user_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let dictionaries = response as! [NSDictionary]
+            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+            
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure(error)
+        })
+    }
+    
     
 }

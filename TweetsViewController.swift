@@ -65,12 +65,20 @@ class TweetsViewController: UIViewController {
             let detailViewController = segue.destination as! ProfileViewController
             detailViewController.tweet = tweet
             
-        } else {
+        } else if(segue.identifier == "CellToDetailSegue"){
             let cell = sender as! UITableViewCell
             let indexPath = tweetsTableView.indexPath(for: cell);
             let tweet = self.tweets![(indexPath?.row)!]
             
             let detailViewController = segue.destination as! TweetDetailsViewController
+            detailViewController.tweet = tweet
+        } else if (segue.identifier == "CellToTweetSegue") {
+            let button = sender as! UIButton
+            let cell = button.superview?.superview as! UITableViewCell
+            let indexPath = tweetsTableView.indexPath(for: cell);
+            let tweet = self.tweets![(indexPath?.row)!]
+            
+            let detailViewController = segue.destination as! UpdateStatusViewController
             detailViewController.tweet = tweet
         }
     }
