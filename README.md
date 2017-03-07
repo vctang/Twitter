@@ -95,6 +95,7 @@ The following **additional** features are implemented:
 
 - [X] Images have rounded edges
 - [X] User can access the profile page by tapping image in the detail view
+- [X] Profile page also contains the selected user's latest posts
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
